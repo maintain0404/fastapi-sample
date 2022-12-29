@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Taein Min <maintain0404@gmail.com>"]
 readme = "README.md"
-packages = [{include = "fastapi_sample"}]
+packages = [{include = "app"}]
 
 # Dependencies
 [tool.poetry.dependencies]
@@ -42,14 +42,14 @@ profile = "black"
 src_paths = ["app", "tests"]
 force_alphabetical_sort_within_sections = true
 extra_standard_library = ["typing_extensions"]
-known_first_party=["app"]
+known_first_party=["common", "core", "domain", "handler", "util"]
 
 [tool.pycln]
 paths = ["app", "tests"]
 
 # Test
 [tool.pytest.ini_options]
-pythonpath = ["./"]
+pythonpath = ["./", "./app"]
 rootdir = './'
 asyncio_mode = 'auto'
 

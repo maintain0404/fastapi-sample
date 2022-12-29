@@ -3,7 +3,7 @@ from contextlib import AbstractAsyncContextManager, nullcontext
 import uvicorn
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from app.core.context import Context
+from core.context import Context
 
 __all__ = ["ContextMiddleware"]
 

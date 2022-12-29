@@ -1,8 +1,7 @@
 from logging import getLogger
 
-from app.core.framework import App
-from app.handler.rest import router, ContextMiddleware
-
+from core.fastapi_ import App
+from handler.rest import ContextMiddleware, router
 
 app = App()
 
@@ -13,10 +12,10 @@ app.add_middleware(ContextMiddleware)
 @app.on_event("startup")
 async def startup():
     logger = getLogger("app.server")
-    logger.info("Startup")
+    logger.info("Application start up.")
 
 
 @app.on_event("shutdown")
 async def shutdown():
     logger = getLogger("app.server")
-    logger.info("Shutdown")
+    logger.info("Application shutdown.")

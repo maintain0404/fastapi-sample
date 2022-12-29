@@ -6,7 +6,7 @@ from types import TracebackType
 from typing import Any, Callable, cast, ClassVar, dataclass_transform, Generic, Optional
 from uuid import UUID, uuid4
 
-from app.util.annotation import P, T, TV, UNDEFINED, UndefinedType
+from util.annotation import P, T, TV, UNDEFINED, UndefinedType
 
 __all__ = ["Context", "RunType"]
 

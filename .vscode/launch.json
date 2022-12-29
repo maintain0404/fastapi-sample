@@ -14,7 +14,8 @@
             "type": "python",
             "request": "launch",
             "module": "uvicorn",
-            "args": ["--host", "0.0.0.0", "--port", "8000", "--log-config", "logging.yaml", "app.main:app"]
+            "justMyCode": false,
+            "args": ["--host", "0.0.0.0", "--port", "8000", "--log-config", "logging.yaml", "--app-dir", "./app", "main:app"]
         }
     ]
 }

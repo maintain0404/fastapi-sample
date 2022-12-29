@@ -1,5 +1,7 @@
 import pytest
 
+from asyncio import TaskGroup
+
 from app.core.context import _BaseContextExecutor, ContextProperty
 
 
@@ -20,7 +22,7 @@ def test_Context_contextmanager():
             Context.not_set
 
 
-def test_Context_run():
+async def test_Context_run():
     async def fun():
         assert Context.default == "default"
         assert Context.factory == "default"
@@ -29,4 +31,11 @@ def test_Context_run():
         with pytest.raises(LookupError):
             Context.not_set
 
-    Context(required="required").run(fun)
+    ctx = Context(required="required")
+
+    ctx.run(fun)
+
+    async with TaskGroup() as tg:
+        for _ in range(3):
+            await tg.create_task(ctx.run(fun))
+    

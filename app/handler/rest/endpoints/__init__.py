@@ -1,4 +1,4 @@
-from app.core.framework import APIRouter
+from core.fastapi_ import APIRouter
 
 from .healthcheck import router as healthcheck_router
 
