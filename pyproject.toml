@@ -47,6 +47,13 @@ known_first_party=["common", "core", "domain", "handler", "util"]
 [tool.pycln]
 paths = ["app", "tests"]
 
+[tool.mypy]
+mypy_path = './app'
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = ['tests']
+
 # Test
 [tool.pytest.ini_options]
 pythonpath = ["./", "./app"]

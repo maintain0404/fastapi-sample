@@ -1,11 +1,11 @@
-import pytest
-
 from asyncio import TaskGroup
 
-from app.core.context import _BaseContextExecutor, ContextProperty
+import pytest
+
+from core.context import BaseContext, ContextProperty
 
 
-class Context(_BaseContextExecutor):
+class Context(BaseContext):
     required: ContextProperty[str] = ContextProperty()
     not_set: ContextProperty[str] = ContextProperty()
     default: ContextProperty[str] = ContextProperty(default="default")
@@ -38,4 +38,3 @@ async def test_Context_run():
     async with TaskGroup() as tg:
         for _ in range(3):
             await tg.create_task(ctx.run(fun))
-    

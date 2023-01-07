@@ -1,6 +1,6 @@
 from async_asgi_testclient import TestClient  # type: ignore[import]
 
-from app.main import app
+from main import app
 
 
 async def test_healtcheck():

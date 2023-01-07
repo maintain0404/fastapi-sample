@@ -1,12 +1,16 @@
-from pydantic import BaseSettings
+from pydantic import BaseModel, Field
 
-LOGGING_CONFIG_FILENAME = "logging"
+from ._internal import BaseConfig
 
 __all__ = ["config", "Config"]
 
 
-class Config(BaseSettings):
-    ...
+class AppConfig(BaseModel):
+    name: str = Field(description="")
+
+
+class Config(BaseConfig):
+    app: AppConfig
 
 
 config = Config()
