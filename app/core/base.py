@@ -3,6 +3,8 @@ from typing import ClassVar
 
 from pydantic import BaseModel
 
+from .db import BaseEntity  # nopycln
+
 
 class BaseDTO(BaseModel):
     class Config:
