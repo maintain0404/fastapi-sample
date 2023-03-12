@@ -2,14 +2,14 @@ from asyncio import TaskGroup
 
 import pytest
 
-from core.context import BaseContext, ContextProperty
+from core.context import BaseContext, context_property
 
 
 class Context(BaseContext):
-    required: ContextProperty[str] = ContextProperty()
-    not_set: ContextProperty[str] = ContextProperty()
-    default: ContextProperty[str] = ContextProperty(default="default")
-    factory: ContextProperty[str] = ContextProperty(default_factory=lambda: "default")
+    required: str = context_property()
+    not_set: str = context_property()
+    default: str = context_property(default="default")
+    factory: str = context_property(default_factory=lambda: "default")
 
 
 def test_Context_contextmanager():

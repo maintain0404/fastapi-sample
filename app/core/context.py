@@ -1,7 +1,7 @@
 from enum import StrEnum
 from uuid import UUID, uuid4
 
-from ._internal import BaseContext, ContextProperty
+from ._internal import BaseContext, context_property
 
 __all__ = ["Context", "RunType"]
 
@@ -13,5 +13,5 @@ class RunType(StrEnum):
 
 
 class Context(BaseContext):
-    runtime: ContextProperty[RunType] = ContextProperty(default=RunType.HTTP)
-    id: ContextProperty[UUID] = ContextProperty(default_factory=uuid4)
+    runtime: RunType = context_property(default=RunType.HTTP)
+    id: UUID = context_property(default_factory=uuid4)

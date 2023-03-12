@@ -9,7 +9,6 @@ from pydantic.env_settings import DotenvType, env_file_sentinel, StrPath
 from yaml import FullLoader  # type: ignore[import]
 from yaml import load as yaml_load  # type: ignore[import]
 
-
 from core.exceptions import ConfigException
 
 CONFIG_FILE_NAME = "app"

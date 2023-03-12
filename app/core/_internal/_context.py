@@ -2,12 +2,21 @@ from contextlib import AbstractAsyncContextManager, AbstractContextManager
 from contextvars import Context as StdContext
 from contextvars import ContextVar, copy_context, Token
 from types import TracebackType
-from typing import Any, Callable, cast, ClassVar, dataclass_transform, Generic, Optional
+from typing import (
+    Any,
+    Callable,
+    cast,
+    ClassVar,
+    dataclass_transform,
+    Generic,
+    Optional,
+    Self,
+)
 
 from util.annotation import P, T, TV, UNDEFINED, UndefinedType
 
 
-class ContextProperty(Generic[TV]):
+class _ContextProperty(Generic[TV]):
     cv: ContextVar
 
     def __init__(
@@ -34,15 +43,22 @@ class ContextProperty(Generic[TV]):
             raise AttributeError
 
 
+def context_property(
+    default: TV | UndefinedType = UNDEFINED,
+    default_factory: Callable[[], TV] | UndefinedType = UNDEFINED,
+):
+    return _ContextProperty(default=default, default_factory=default_factory)
+
+
 @dataclass_transform(
     eq_default=False,
     order_default=False,
     kw_only_default=False,
-    field_specifiers=(ContextProperty,),
+    field_specifiers=(context_property,),
 )
 class BaseContext(AbstractAsyncContextManager, AbstractContextManager):
     _cvs: ClassVar[dict[str, ContextVar]]
-    _attrs: ClassVar[dict[str, ContextProperty]]
+    _attrs: ClassVar[dict[str, _ContextProperty]]
     _ctx: StdContext
     _tokens: dict[str, Token]
 
@@ -66,13 +82,13 @@ class BaseContext(AbstractAsyncContextManager, AbstractContextManager):
         cls._cvs = {}
         cls._attrs = {}
         for name, attr in vars(cls).items():
-            if isinstance(attr, ContextProperty):
+            if isinstance(attr, _ContextProperty):
                 cls._attrs[name] = attr
                 cls._cvs[name] = attr.cv
 
     def __enter__(
         self,
-    ) -> "BaseContext":  # TODO: Change to Self when mypy supports Self
+    ) -> Self:
         return self
 
     def __exit__(
@@ -87,7 +103,7 @@ class BaseContext(AbstractAsyncContextManager, AbstractContextManager):
 
     async def __aenter__(
         self,
-    ) -> "BaseContext":  # TODO: Change to Self when mypy supports Self
+    ) -> Self:
         return self
 
     async def __aexit__(

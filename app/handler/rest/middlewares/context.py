@@ -1,9 +1,8 @@
 from contextlib import AbstractAsyncContextManager, nullcontext
 
-import uvicorn
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from core.context import Context
+from core.context import Context, RunType
 
 __all__ = ["ContextMiddleware"]
 
@@ -15,9 +14,9 @@ class ContextMiddleware:
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         ctx: AbstractAsyncContextManager
         if scope["type"] == "http":
-            ctx = Context(runtime="http")
+            ctx = Context(runtime=RunType.HTTP)
         elif scope["type"] == "websocket":
-            ctx = Context(runtime="websocket")
+            ctx = Context(runtime=RunType.WEBSOCKET)
         else:
             ctx = nullcontext()
 
