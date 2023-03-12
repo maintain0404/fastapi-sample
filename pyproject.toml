@@ -11,7 +11,7 @@ packages = [{include = "app"}]
 python = "^3.11"
 fastapi = "^0.88.0"
 uvicorn = {extras = ["standard"], version = "^0.20.0"}
-sqlalchemy = {version = "^2.0.0rc1", allow-prereleases = true}
+sqlalchemy = {version = "^2.0.4"}
 
 [tool.poetry.group.dev]
 optional = true
