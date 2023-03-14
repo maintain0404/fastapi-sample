@@ -51,6 +51,7 @@ paths = ["app", "tests"]
 [tool.mypy]
 mypy_path = './app'
 explicit_package_bases = true
+plugins = ["sqlalchemy.ext.mypy.plugin", "pydantic.mypy"]
 
 [[tool.mypy.overrides]]
 module = ['tests']
