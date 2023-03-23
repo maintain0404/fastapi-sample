@@ -32,3 +32,13 @@ class BaseRepo(Component):
 class BaseService(Component):
     type = "service"
     impl = "base"
+
+
+# BaseException is python superclass of all exceptions.
+# Because of ame conflict with BaseException, use AppException instead.
+class AppException(Exception):
+    ...
+
+
+class ConfigException(AppException):
+    ...
