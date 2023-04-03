@@ -1,6 +1,6 @@
 from logging import Filter, LogRecord
 
-from .context import Context
+from .var.context import Context
 
 
 class ContextInjectingFilter(Filter):

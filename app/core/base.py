@@ -1,7 +1,9 @@
 from logging import getLogger, Logger
-from typing import ClassVar
+from typing import ClassVar, Generic
 
 from pydantic import BaseModel
+
+from util.annotation import TV
 
 from .db import BaseEntity  # nopycln
 
@@ -24,9 +26,12 @@ class Component:
         cls.logger = getLogger(f"app.{cls.type}.{cls.impl}")
 
 
-class BaseRepo(Component):
+class BaseRepo(Component, Generic[TV]):
     type = "repo"
     impl = "base"
+
+    async def save(self, entity: TV):
+        ...
 
 
 class BaseService(Component):

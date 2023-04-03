@@ -20,10 +20,11 @@ The core directory contains a custom framework, basic codes for using libraries,
 ### base
 All base classes for the entire project.
 
-### config
+### var
+The core/var directory contains application global variables.
+#### config
 This component provides the application's global configuration.
-
-### context
+#### context
 This components wraps python [ContextVar](https://docs.python.org/3/library/contextvars.html).
 
 

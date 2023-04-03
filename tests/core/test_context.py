@@ -2,7 +2,7 @@ from asyncio import TaskGroup
 
 import pytest
 
-from core.context import BaseContext, context_property
+from core.var.context import BaseContext, context_property
 
 
 class Context(BaseContext):

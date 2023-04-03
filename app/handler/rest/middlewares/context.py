@@ -2,7 +2,7 @@ from contextlib import AbstractAsyncContextManager, nullcontext
 
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from core.context import Context, RunType
+from core.var.context import Context, RunType
 
 __all__ = ["ContextMiddleware"]
 
