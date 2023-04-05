@@ -12,6 +12,8 @@ python = "^3.11"
 fastapi = "^0.88.0"
 uvicorn = {extras = ["standard"], version = "^0.20.0"}
 sqlalchemy = {extras = ["asyncio", "asyncpg"], version = "^2.0.4"}
+bcrypt = "^4.0.1"
+pyjwt = "^2.6.0"
 
 [tool.poetry.group.dev]
 optional = true
