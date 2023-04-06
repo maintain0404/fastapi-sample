@@ -48,7 +48,7 @@ extra_standard_library = ["typing_extensions"]
 known_first_party=["common", "core", "domain", "handler", "util"]
 
 [tool.pycln]
-paths = ["app", "tests"]
+all = true
 
 [tool.mypy]
 mypy_path = './app'

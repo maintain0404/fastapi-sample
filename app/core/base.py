@@ -5,12 +5,13 @@ from pydantic import BaseModel
 
 from util.annotation import TV
 
-from .db import BaseEntity  # nopycln
+from .db import AsyncSession, BaseEntity  # nopycln
 
 
 class BaseDTO(BaseModel):
     class Config:
         use_enum_values = True
+        orm_mode = True
 
 
 class Component:
@@ -34,6 +35,14 @@ class BaseRepo(Component, Generic[TV]):
         ...
 
 
+class BaseRdbRepo(BaseRepo[TV]):
+    session: AsyncSession
+
+    async def save(self, entity: TV) -> TV:
+        await self.session.merge(entity)
+        return entity
+
+
 class BaseService(Component):
     type = "service"
     impl = "base"
@@ -42,7 +51,7 @@ class BaseService(Component):
 # BaseException is python superclass of all exceptions.
 # Because of ame conflict with BaseException, use AppException instead.
 class AppException(Exception):
-    ...
+    code: ClassVar[str]
 
 
 class ConfigException(AppException):

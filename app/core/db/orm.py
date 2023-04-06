@@ -1,6 +1,6 @@
 from typing import Any
 
-from sqlalchemy import engine_from_config
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import (
     async_scoped_session,
     async_sessionmaker,
@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
     create_async_engine,
 )
-from sqlalchemy.orm import (  # nopycln: import
+from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
     mapped_column,

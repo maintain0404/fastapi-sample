@@ -1,4 +1,5 @@
 from .orm import (
+    AsyncSession,
     BaseEntity,
     class_registry,
     DeclarativeBase,
