@@ -9,9 +9,9 @@ packages = [{include = "app"}]
 # Dependencies
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.88.0"
+fastapi = "^0.95.0"
 uvicorn = {extras = ["standard"], version = "^0.20.0"}
-sqlalchemy = {extras = ["asyncio", "asyncpg"], version = "^2.0.4"}
+sqlalchemy = {extras = ["asyncio", "postgresql-asyncpg"], version = "^2.0.9"}
 bcrypt = "^4.0.1"
 pyjwt = "^2.6.0"
 dependency-injector = {extras = ["pydantic"], version = "^4.41.0"}

@@ -1,17 +1,12 @@
+from datetime import date, datetime, timedelta
 from os import environ
-from tomllib import load
 
-from pydantic import BaseModel, Field, SecretStr
+from pydantic import BaseModel, Field, root_validator, SecretStr
+from tomllib import load
 
 from ._internal import BaseConfig
 
 __all__ = ["config", "Config"]
-
-
-def toml_config_settings_source(config: "Config"):
-    CONFIG_PATH = environ.get("APP_CONFIG_FILEPATH", "app.toml")
-    with open(CONFIG_PATH, mode="rb") as f:
-        return load(f)
 
 
 class AppConfig(BaseModel):
@@ -27,32 +22,18 @@ class DatabaseConfig(BaseModel):
     port: int
     path: str
 
-    @property
-    def sqlalchemy_uri(self) -> str:
-        return (
-            f"{self.name}+{self.api}://{self.user}:{self.password}"
-            f"@{self.host}:{self.port}/{self.path}"
-        )
+
+class JwtConfig(BaseModel):
+    access_token_expire: timedelta
+    refresh_token_expire: timedelta
+    secret: SecretStr
+    algorithm: str = "HS256"
 
 
 class Config(BaseConfig):
     app: AppConfig
     db: DatabaseConfig
-
-    class Config:
-        @classmethod
-        def customise_sources(
-            cls,
-            init_settings,
-            env_settings,
-            file_secret_settings,
-        ):
-            return (
-                init_settings,
-                toml_config_settings_source,
-                env_settings,
-                file_secret_settings,
-            )
+    jwt: JwtConfig
 
 
 config = Config()  # type: ignore

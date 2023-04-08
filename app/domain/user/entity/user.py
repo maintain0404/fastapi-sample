@@ -1,13 +1,12 @@
-from dataclasses import dataclass
+from sqlalchemy.orm import Mapped, mapped_column
 
 from core.base import BaseEntity
 from core.db.mixins import TimestampAuditing
-from core.db.types import intpk, required_bytes, required_str
+from core.db.types import intpk
 
 
-@dataclass
 class User(BaseEntity, TimestampAuditing):
     __tablename__ = "user"
-    id: intpk
-    email: required_str
-    password: required_bytes
+    id: Mapped[intpk]
+    email: Mapped[str] = mapped_column(nullable=False)
+    password: Mapped[bytes]

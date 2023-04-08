@@ -1,21 +1,34 @@
 from logging import getLogger
 
+from container import MainContainer
+from core.db.orm import check_conn
 from core.fastapi_ import App
-from handler.rest import ContextMiddleware, router
-
-app = App()
-
-app.include_router(router)
-app.add_middleware(ContextMiddleware)
 
 
-@app.on_event("startup")
-async def startup():
-    logger = getLogger("app.server")
-    logger.info("Application start up.")
+def create_app():
+    app = App()
+
+    app.container: MainContainer = MainContainer()
+    app.container.check_dependencies()
+    app.container.wire()
+
+    from handler.rest import ContextMiddleware, router
+
+    app.include_router(router)
+    app.add_middleware(ContextMiddleware)
+
+    @app.on_event("startup")
+    async def startup():
+        logger = getLogger("app.server")
+        # await check_conn(app.container.sa_engine())
+        logger.info("Application start up.")
+
+    @app.on_event("shutdown")
+    async def shutdown():
+        logger = getLogger("app.server")
+        logger.info("Application shutdown.")
+
+    return app
 
 
-@app.on_event("shutdown")
-async def shutdown():
-    logger = getLogger("app.server")
-    logger.info("Application shutdown.")
+app = create_app()

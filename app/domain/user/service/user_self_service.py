@@ -1,8 +1,6 @@
-from datetime import datetime, timedelta
-from typing import Literal
+from dataclasses import dataclass
 
 import bcrypt
-import jwt
 
 from core.base import BaseService
 from domain.user.dto.user_self_dto import (
@@ -19,32 +17,13 @@ from domain.user.exceptions import (
     UserNotExistException,
 )
 from domain.user.repo import UserRepo
+from domain.user.service.auth_service import AuthService
 
 
+@dataclass
 class UserSelfService(BaseService):
     repo: UserRepo
-    ACCESS_TOKEN_EXP: timedelta
-    REFRESH_TOKEN_EXP: timedelta
-    JWT_SECRET: str
-    JWT_ALGORITHM: str
-
-    def _issue_token(self, user: User, type_: Literal["access", "refresh"]) -> str:
-        match type_:
-            case "access":
-                exp = self.ACCESS_TOKEN_EXP
-            case "refresh":
-                exp = self.REFRESH_TOKEN_EXP
-            case _:
-                raise ValueError(f'Invalid token type "{type_}"')
-        return jwt.encode(
-            {
-                "sub": user.id,
-                "exp": datetime.now() + exp,
-                "type": type_,
-            },
-            self.JWT_SECRET,
-            self.JWT_ALGORITHM,
-        )
+    auth: AuthService
 
     async def sign_in(self, dto: SignInDto) -> SignInSuccessDto:
         user = await self.repo.find_by_email(dto.email)
@@ -59,8 +38,8 @@ class UserSelfService(BaseService):
         return SignInSuccessDto(
             id=user.id,
             email=user.email,
-            access_token=self._issue_token(user, "access"),
-            refresh_token=self._issue_token(user, "refresh"),
+            access_token=self.auth.issue_token(user, "access"),
+            refresh_token=self.auth.issue_token(user, "refresh"),
         )
 
     async def sign_up(self, dto: SignUpDto) -> SignUpSuccessDto:
@@ -75,14 +54,6 @@ class UserSelfService(BaseService):
         user = User(email=dto.email, password=hashed_pw)  # type: ignore[arg-type]
         await self.repo.save(user)
         return SignUpSuccessDto.from_orm(user)
-
-    async def authenticate(self, access_token: str) -> bool:
-        try:
-            jwt.decode(access_token, self.JWT_SECRET, [self.JWT_ALGORITHM])
-        except jwt.InvalidTokenError:
-            return False
-        else:
-            return True
 
     async def show_me(self, user_id: int) -> ShowMeDto:
         user = await self.repo.find_by_id(user_id)

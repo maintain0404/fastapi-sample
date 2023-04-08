@@ -1,11 +1,11 @@
 from functools import partial
 from json import load as json_load
 from pathlib import Path
-from tomllib import load as toml_load
 from typing import Any, no_type_check
 
 from pydantic import BaseSettings
 from pydantic.env_settings import DotenvType, env_file_sentinel, StrPath
+from tomllib import load as toml_load
 from yaml import FullLoader  # type: ignore[import]
 from yaml import load as yaml_load  # type: ignore[import]
 
@@ -17,7 +17,7 @@ def get_config_filepath(suffix: str):
 
 
 @no_type_check
-def load_configfile() -> dict[str, Any]:
+def load_configfile(settings: BaseSettings) -> dict[str, Any]:
     yaml_loader = partial(yaml_load, loader=FullLoader)
     for path, loader in [
         (get_config_filepath("toml"), toml_load),
@@ -26,7 +26,7 @@ def load_configfile() -> dict[str, Any]:
         (get_config_filepath("json"), json_load),
     ]:
         if Path(path).is_file():
-            with open(path, "r") as f:
+            with open(path, "rb") as f:
                 return loader(f)
     raise FileNotFoundError("Config file not found")
 

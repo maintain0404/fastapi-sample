@@ -19,17 +19,18 @@ class Component:
     impl: ClassVar[str]
     type: ClassVar[str]
 
-    def __new__(cls) -> "Component":
-        cls.logger.debug(f"Component {cls.__name__}({cls.type=} {cls.impl=}) created.")
+    def __new__(cls, *args, **kwargs) -> "Component":
+        cls.logger.debug(
+            f"Component {cls.__name__}(type='{cls.type}' name='{cls.__name__}') created."
+        )
         return super().__new__(cls)
 
     def __init_subclass__(cls) -> None:
-        cls.logger = getLogger(f"app.{cls.type}.{cls.impl}")
+        cls.logger = getLogger(f"app.{cls.type}.{cls.__name__}")
 
 
-class BaseRepo(Component, Generic[TV]):
+class BaseRepo(Generic[TV], Component):
     type = "repo"
-    impl = "base"
 
     async def save(self, entity: TV):
         ...
@@ -45,7 +46,6 @@ class BaseRdbRepo(BaseRepo[TV]):
 
 class BaseService(Component):
     type = "service"
-    impl = "base"
 
 
 # BaseException is python superclass of all exceptions.
