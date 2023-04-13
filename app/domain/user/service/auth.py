@@ -5,7 +5,7 @@ from typing import Literal
 import jwt
 
 from core.base import BaseService
-from domain.user.dto.auth_dto import AuthInfo
+from domain.user.dto.auth import AuthInfo
 from domain.user.entity.user import User
 from domain.user.exceptions import NotAuthenticatedException
 

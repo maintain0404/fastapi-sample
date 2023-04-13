@@ -7,6 +7,6 @@ from core.db.types import intpk
 
 class User(BaseEntity, TimestampAuditing):
     __tablename__ = "user"
-    id: Mapped[intpk]
-    email: Mapped[str] = mapped_column(nullable=False)
-    password: Mapped[bytes]
+    id: Mapped[intpk] = mapped_column(init=False)
+    email: Mapped[str] = mapped_column()
+    password: Mapped[bytes] = mapped_column()

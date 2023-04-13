@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import bcrypt
 
 from core.base import BaseService
-from domain.user.dto.user_self_dto import (
+from domain.user.dto.user_self import (
     ShowMeDto,
     SignInDto,
     SignInSuccessDto,
@@ -17,7 +17,7 @@ from domain.user.exceptions import (
     UserNotExistException,
 )
 from domain.user.repo import UserRepo
-from domain.user.service.auth_service import AuthService
+from domain.user.service.auth import AuthService
 
 
 @dataclass

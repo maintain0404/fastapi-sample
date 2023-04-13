@@ -1,1 +1,1 @@
-from .user_repo import UserRepo
+from .user import UserRepo
