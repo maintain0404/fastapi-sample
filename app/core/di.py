@@ -3,6 +3,7 @@
 # https://github.com/tiangolo/fastapi/releases/tag/0.95.0
 
 import inspect
+import sys
 from types import GenericAlias
 from typing import Annotated, Any, Callable, cast, get_args, get_origin
 
@@ -21,10 +22,8 @@ def _fetch_reference_injections(  # noqa: C901
     # Hotfix, see:
     # - https://github.com/ets-labs/python-dependency-injector/issues/362
     # - https://github.com/ets-labs/python-dependency-injector/issues/398
-    if GenericAlias and any(
-        (fn is GenericAlias, getattr(fn, "__func__", None) is GenericAlias)
-    ):
-        fn = fn.__init__
+    if any((fn is GenericAlias, getattr(fn, "__func__", None) is GenericAlias)):
+        fn = fn.__init__  # type: ignore[misc]
 
     try:
         signature = inspect.signature(fn)

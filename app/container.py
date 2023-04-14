@@ -22,9 +22,10 @@ from domain.account.service.auth import AuthService
 
 class MainContainer(DeclarativeContainer):
     wiring_config = WiringConfiguration(modules=["handler.rest.endpoints.account"])
+    # duck-typing
     config: Config = Configuration(
         pydantic_settings=[config], strict=True
-    )  # Duck-typing
+    )  # type: ignore[assignment]
     sa_uri = Callable(
         build_sa_uri,
         name=config.db.name,
