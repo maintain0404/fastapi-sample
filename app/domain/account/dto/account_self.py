@@ -1,4 +1,4 @@
-from pydantic import Field, SecretBytes
+from pydantic import SecretBytes
 
 from core.base import BaseDTO
 

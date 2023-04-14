@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Response
 
 from core.di import inject
-from domain.user.dto.user_self_dto import SignInDto, SignInSuccessDto, SignUpDto
-from handler.rest.depends.user_depends import AuthInfo, UserSelfService
+from domain.account.dto.account_self import SignInDto, SignInSuccessDto, SignUpDto
+from handler.rest.depends.account import AccountSelfService, AuthInfo
 
-router = APIRouter(prefix="/user")
+router = APIRouter(prefix="/account")
 
 
 @router.post("/sign_in", response_model=SignInSuccessDto)
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/user")
 async def sign_in(
     res: Response,
     dto: SignInDto,
-    service: UserSelfService,
+    service: AccountSelfService,
 ) -> Response:
     sign_in_res = await service.sign_in(dto)
     res.headers["Authorization"] = "Bearer " + sign_in_res.access_token
@@ -23,11 +23,11 @@ async def sign_in(
 
 @router.post("/sign_up")
 @inject
-async def sign_up(obj: SignUpDto, service: UserSelfService):
+async def sign_up(obj: SignUpDto, service: AccountSelfService):
     return await service.sign_up(obj)
 
 
 @router.get("/me")
 @inject
-async def show_me(auth_info: AuthInfo, service: UserSelfService):
+async def show_me(auth_info: AuthInfo, service: AccountSelfService):
     return await service.show_me(auth_info.id)

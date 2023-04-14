@@ -1,8 +1,6 @@
-from datetime import date, datetime, timedelta
-from os import environ
+from datetime import timedelta
 
-from pydantic import BaseModel, Field, root_validator, SecretStr
-from tomllib import load
+from pydantic import BaseModel, Field, SecretStr
 
 from ._internal import BaseConfig
 

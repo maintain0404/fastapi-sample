@@ -1,7 +1,6 @@
 from logging import getLogger
 
 from container import MainContainer
-from core.db.orm import check_conn
 from core.fastapi_ import App
 
 
@@ -20,7 +19,6 @@ def create_app():
     @app.on_event("startup")
     async def startup():
         logger = getLogger("app.server")
-        # await check_conn(app.container.sa_engine())
         logger.info("Application start up.")
 
     @app.on_event("shutdown")

@@ -15,13 +15,13 @@ from sqlalchemy.ext.asyncio import (
 
 from core.db.orm import build_sa_uri, get_session
 from core.var.config import config, Config
-from domain.user.repo.user_repo import UserRepo
-from domain.user.service.auth_service import AuthService
-from domain.user.service.user_self_service import UserSelfService
+from domain.account.repo.account import AccountRepo
+from domain.account.service.account_self import AccountSelfService
+from domain.account.service.auth import AuthService
 
 
 class MainContainer(DeclarativeContainer):
-    wiring_config = WiringConfiguration(modules=["handler.rest.endpoints.user"])
+    wiring_config = WiringConfiguration(modules=["handler.rest.endpoints.account"])
     config: Config = Configuration(
         pydantic_settings=[config], strict=True
     )  # Duck-typing
@@ -41,7 +41,7 @@ class MainContainer(DeclarativeContainer):
         get_session,
         sessionmaker=sa_sessionmaker,
     )
-    user_repo = Factory(UserRepo, session=sa_session)
+    account_repo = Factory(AccountRepo, session=sa_session)
     auth_service = Factory(
         AuthService,
         access_token_expire=config.jwt.access_token_expire,
@@ -49,4 +49,6 @@ class MainContainer(DeclarativeContainer):
         jwt_secret=config.jwt.secret,
         jwt_algorithm=config.jwt.algorithm,
     )
-    user_self_service = Factory(UserSelfService, repo=user_repo, auth=auth_service)
+    account_self_service = Factory(
+        AccountSelfService, repo=account_repo, auth=auth_service
+    )

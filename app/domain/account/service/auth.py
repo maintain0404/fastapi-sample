@@ -5,9 +5,9 @@ from typing import Literal
 import jwt
 
 from core.base import BaseService
-from domain.user.dto.auth import AuthInfo
-from domain.user.entity.user import User
-from domain.user.exceptions import NotAuthenticatedException
+from domain.account.dto.auth import AuthInfo
+from domain.account.entity.account import Account
+from domain.account.exceptions import NotAuthenticated
 
 
 @dataclass
@@ -17,7 +17,7 @@ class AuthService(BaseService):
     jwt_secret: str
     jwt_algorithm: str
 
-    def issue_token(self, user: User, type_: Literal["access", "refresh"]) -> str:
+    def issue_token(self, account: Account, type_: Literal["access", "refresh"]) -> str:
         match type_:
             case "access":
                 exp = self.access_token_expire
@@ -27,7 +27,7 @@ class AuthService(BaseService):
                 raise ValueError(f'Invalid token type "{type_}"')
         return jwt.encode(
             {
-                "sub": user.id,
+                "sub": account.id,
                 "exp": datetime.now() + exp,
                 "type": type_,
             },
@@ -39,6 +39,6 @@ class AuthService(BaseService):
         try:
             decoded = jwt.decode(access_token, self.jwt_secret, [self.jwt_algorithm])
         except jwt.InvalidTokenError:
-            raise NotAuthenticatedException
+            raise NotAuthenticated
         else:
             return AuthInfo(id=decoded["sub"])

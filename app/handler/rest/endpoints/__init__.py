@@ -1,7 +1,7 @@
 from core.fastapi_ import APIRouter
 
+from .account import router as user_router
 from .healthcheck import router as healthcheck_router
-from .user import router as user_router
 
 __all__ = ["router"]
 
