@@ -13,7 +13,7 @@ from typing import (
     Self,
 )
 
-from util.annotation import P, T, TV, UNDEFINED, UndefinedType
+from core.annotation import P, T, TV, UNDEFINED, UndefinedType
 
 
 class _ContextProperty(Generic[TV]):

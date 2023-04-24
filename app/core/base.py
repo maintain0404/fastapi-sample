@@ -3,7 +3,7 @@ from typing import ClassVar, Generic
 
 from pydantic import BaseModel
 
-from util.annotation import TV
+from core.annotation import TV
 
 from .db import AsyncSession, BaseEntity  # nopycln
 
