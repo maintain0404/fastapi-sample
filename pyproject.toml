@@ -23,7 +23,7 @@ optional = true
     mypy = "^1.0.0"
     black = "^22.12.0"
     isort = "^5.11.4"
-    pycln = "^2.1.2"
+    ruff = "^0.0.263"
 
 [tool.poetry.group.doc]
 optional = true
@@ -58,6 +58,12 @@ plugins = ["sqlalchemy.ext.mypy.plugin", "pydantic.mypy"]
 
 [[tool.mypy.overrides]]
 module = ['tests']
+
+[tool.ruff.per-file-ignores]
+"*__init__.py" = ["F401"]
+"app/core/fastapi_.py" = ["F401"]
+"app/core/base.py" = ["F401"]
+"app/core/db/orm.py" = ["F401"]
 
 # Test
 [tool.pytest.ini_options]

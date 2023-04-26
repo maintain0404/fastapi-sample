@@ -21,7 +21,7 @@ class Component:
 
     def __new__(cls, *args, **kwargs) -> "Component":
         cls.logger.debug(
-            f"Component {cls.__name__}(type='{cls.type}' name='{cls.__name__}') created."
+            f"Component {cls.__name__}(type='{cls.type}' name='{cls.__name__}') created."  # noqa: E501
         )
         return super().__new__(cls)
 

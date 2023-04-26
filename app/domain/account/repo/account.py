@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.base import BaseRdbRepo, BaseRepo
+from core.base import BaseRdbRepo
 from core.db.orm import select
 from domain.account.entity import Account
 

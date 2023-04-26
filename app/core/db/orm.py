@@ -50,4 +50,4 @@ def build_sa_uri(
 
 
 async def check_conn(engine: AsyncEngine):
-    conn = await engine.connect()
+    await engine.connect()

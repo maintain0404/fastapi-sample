@@ -3,7 +3,6 @@
 # https://github.com/tiangolo/fastapi/releases/tag/0.95.0
 
 import inspect
-import sys
 from types import GenericAlias
 from typing import Annotated, Any, Callable, cast, get_args, get_origin
 

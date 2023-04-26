@@ -6,12 +6,7 @@ from dependency_injector.providers import (
     Resource,
     Singleton,
 )
-from sqlalchemy.ext.asyncio import (
-    async_sessionmaker,
-    AsyncEngine,
-    AsyncSession,
-    create_async_engine,
-)
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from core.db.orm import build_sa_uri, get_session
 from core.var.config import config, Config
